@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Clean car",
+    "completed": false,
+    "id": 1
+  },
+  {
+    "title": "Read a book",
+    "completed": false,
+    "id": 2
+  },
+  {
+    "title": "Pay bills",
+    "completed": true,
+    "id": 3
+  },
+  {
+    "title": "Study",
+    "completed": true,
+    "id": 4
+  },
+  {
+    "title": "Clean bathroon",
+    "completed": false,
+    "id": 5
+  },
+  {
+    "title": "Buy bread",
+    "completed": false,
+    "id": 6
+  }
+]
