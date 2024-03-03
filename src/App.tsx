@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Task } from "./shared/task"
 import { remult } from "remult";
+import { TasksController } from "./shared/TasksController";
 
 const taskRepo = remult.repo(Task);
 
@@ -11,7 +12,7 @@ function App() {
   useEffect(() => {
     return taskRepo.liveQuery({
       orderBy: { completed: "desc" }
-    }).subscribe(info =>setTasks(info.applyChanges))
+    }).subscribe(info => setTasks(info.applyChanges))
   }, [])
 
   async function addTask(e: FormEvent<HTMLFormElement>) {
@@ -29,7 +30,7 @@ function App() {
     try {
       const confirmed = window.confirm("Are you sure you want to delete this task?")
 
-      if(!confirmed) return;
+      if (!confirmed) return;
 
       await taskRepo.delete(id);
       setTasks((tasks) => tasks.filter(t => t.id !== id))
@@ -44,7 +45,7 @@ function App() {
   }
 
   async function setCompleted(task: Task, completed: boolean) {
-    setTask(task,  await taskRepo.save({...task, completed}));
+    setTask(task, await taskRepo.save({ ...task, completed }));
   }
 
   function setTitle(task: Task, title: string) {
@@ -55,9 +56,13 @@ function App() {
   async function saveTask(task: Task) {
     try {
       setTask(task, await taskRepo.save(task));
-    } catch(error: any) {
+    } catch (error: any) {
       alert(error.message);
     }
+  }
+
+  async function setAllCompleted(completed: boolean) {
+    await TasksController.setAllCompleted(completed);
   }
   return (
     <div>
@@ -86,6 +91,11 @@ function App() {
             <button onClick={() => deleteTask(task.id)}>Delete</button>
           </div>
         ))}
+
+        <div>
+          <button onClick={() => setAllCompleted(true)}>Set all completed</button>
+          <button onClick={() => setAllCompleted(false)}>Clear all completed</button>
+        </div>
       </main>
     </div>
   )
